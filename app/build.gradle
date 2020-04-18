@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+android {
+    compileSdkVersion config_android.compileSdkVersion
+    buildToolsVersion config_android.buildToolsVersion
+
+    defaultConfig {
+        applicationId config_android.applicationId
+        minSdkVersion config_android.minSdkVersion
+        targetSdkVersion config_android.targetSdkVersion
+        versionCode config_android.versionCode
+        versionName config_android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.kunminx.player:player:1.1.6'
+    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.yanzhenjie.permission:x:2.0.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'net.steamcrafted:materialiconlib:1.1.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+    implementation project(":architecture")
+    config_dependencies.each { k, v -> implementation v }
+    //jetpack
+    jetpack_dependencies_imp.each { k, v -> implementation v }
+    jetpack_dependencies_kapt.each { k, v -> kapt v }
+}
